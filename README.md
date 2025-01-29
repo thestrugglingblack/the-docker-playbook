@@ -84,6 +84,7 @@ Slides for this workshop is located ![here]().
 - 
 ### Docker 🐳
 - Sign up to DockerHub to share amongst friends locally.
+- Push up Docker image to ECR
 
 ### Terraform 🪨
 

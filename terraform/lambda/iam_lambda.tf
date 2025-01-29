@@ -82,3 +82,4 @@ resource "aws_iam_policy_attachment" "tdp_ecr_policy_attach" {
   policy_arn = aws_iam_policy.ecr_access_policy.arn
 }
 
+
