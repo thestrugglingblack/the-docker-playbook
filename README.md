@@ -39,10 +39,10 @@ Slides for this workshop is located ![here]().
 [![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/thestrugglingblack)
 
 ## ✅ Dependencies
-* ![Docker](https://www.docker.com/get-started/)
-* ![Python (v3)](https://www.python.org/downloads/)
-* ![Terraform](https://developer.hashicorp.com/terraform/install)
-* ![AWS Account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
+* [Docker](https://www.docker.com/get-started/)
+* [Python (v3)](https://www.python.org/downloads/)
+* [Terraform](https://developer.hashicorp.com/terraform/install)
+* [AWS Account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
 
 
 ## 🌵 File Structure
