@@ -28,6 +28,15 @@ jobs:
         cd ./terraform/lambda
         terraform init
 
+    - name: Import Existing Resources
+      run: |
+        cd ./terraform/lambda
+        terraform import aws_ecr_repository.tdp_model_ecr tdp/the-docker-playbook-model
+        terraform import aws_iam_role.tdp_lambda_role tdp_model_execution_role
+        terraform import aws_iam_policy.s3_access_policy arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:policy/tdp_model_s3_access_policy
+        terraform import aws_iam_policy.ecr_access_policy arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:policy/tdp_model_ecr_access_policy
+
+
     - name: Terraform Validate
       run: |
         cd ./terraform/lambda
