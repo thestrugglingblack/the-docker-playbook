@@ -11,10 +11,10 @@
 
 <p align="center">
 
-![GitHub Stars](https://img.shields.io/github/stars/thestrugglingblack/the-docker-playbook?style=plastic)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/thestrugglingblack/the-docker-playbook?style=plastic)
-![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/thestrugglingblack/the-docker-playbook.svg)
-![GitHub Repository Size](https://img.shields.io/github/repo-size/thestrugglingblack/the-docker-playbook?style=plastic)
+![GitHub Repo Stars](https://img.shields.io/github/stars/thestrugglingblack/the-docker-playbook)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/thestrugglingblack/the-docker-playbook)
+![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/thestrugglingblack/the-docker-playbook)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/thestrugglingblack/the-docker-playbook)
 </p>
 
 ## 📍Table of Contents
