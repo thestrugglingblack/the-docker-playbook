@@ -6,8 +6,16 @@ resource "aws_lambda_function" "tdp_model_lambda" {
   image_uri = "378737770782.dkr.ecr.us-east-1.amazonaws.com/tdp/the-docker-playbook-model:latest"
   timeout = 300
   memory_size = 512
-
   depends_on = [
     aws_ecr_repository.tdp_model_ecr
   ]
+
+  environment {
+    variables = {
+      S3_BUCKET_NAME = data.aws_s3_bucket.tdp_data.bucket
+      DATA_FOLDER = "/raw-data"
+      RESULTS = "/results"
+      MODEL_FOLDER = "/model"
+    }
+  }
 }

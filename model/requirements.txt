@@ -2,3 +2,4 @@ scikit-learn==1.0.2
 polars
 joblib==1.1.0
 numpy==1.23
+boto3

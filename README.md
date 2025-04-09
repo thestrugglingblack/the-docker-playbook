@@ -21,10 +21,10 @@
 * 👋 [Overview](#-overview)
 * ✅ [Dependencies](#-dependencies)
 * 🌵 [File Structure](#-file-structure)
-* 💾 [Data](#-data)
 * 🏃 [Preliminary Steps](#-preliminary-steps)
-  * [AWS](#aws)
-  * [Docker](#docker)
+  * [AWS](#-aws)
+  * [Docker](#-docker)
+  * [Terraform](#-terraform)
 * 🚀 [Getting Started](#getting-started)
 * 📑 [Resources](#-resources)
 
@@ -47,49 +47,45 @@ Slides for this workshop is located ![here]().
 
 ## 🌵 File Structure
 ```txt
-.
 ├── LICENSE
 ├── README.md
-├── dashboard
-│   ├── Dockerfile
-│   ├── app.py
-│   └── requirements.txt
-├── data
-│   └── nfl-big-data-bowl-2025.zip
 ├── model
 │   ├── Dockerfile
 │   ├── model.py
 │   └── requirements.txt
+├── scripts
+│   └── ecr-login.sh
 └── terraform
-    ├── lambda
-    │   ├── iam_lambda.tf
-    │   ├── lambda.tf
-    │   ├── providers.tf
-    │   └── s3.tf
-    └── sagemaker
-        ├── iam_sagemaker.tf
-        └── sagemaker.tf
+    └── lambda
+        ├── ecr.tf
+        ├── iam_ecr.tf
+        ├── iam_lambda.tf
+        ├── lambda.tf
+        ├── providers.tf
+        ├── s3.tf
+        └── sns.tf
 ```
-
-
-## 💾 Data
 
 ##  🏃 Preliminary Steps
 
 ### GitHub Actions 
 - Add Docker Hub username and password. 
 
-### AWS ☁️
+### ☁️ AWS 
 - Provide full permissions needed for Terraform to up and deploy pipelines
 - 
-### Docker 🐳
+### 🐳 Docker 
 - Sign up to DockerHub to share amongst friends locally.
 - Push up Docker image to ECR
 
-### Terraform 🪨
-
+### 🪨 Terraform 
+- Install Terraform
 
 ## 🚀 Getting Started
+- Run docker build 
+- Run terraform init
+- Run terraform apply
+
 ## 📑 Resources
 * ![Terraform Tutorial](https://spacelift.io/blog/terraform-tutorial)
-
+* ![Docker Tutorial For Beginners](https://www.youtube.com/watch?v=fqMOX6JJhGo)

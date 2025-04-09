@@ -1,4 +1,4 @@
-# Define the-docker-playbook-model-lamba-role
+# Define the-docker-playbook-model-lambda-role
 resource "aws_iam_role" "tdp_lambda_role"{
   name = "tdp_model_execution_role"
   assume_role_policy = jsonencode({
@@ -83,3 +83,28 @@ resource "aws_iam_policy_attachment" "tdp_ecr_policy_attach" {
 }
 
 
+# Define SNS policy
+resource "aws_iam_policy" "lambda_publish_to_sns"{
+  name = "LambdaPublishToSns"
+  description = "Allow Lambda to publish to SNS Topic"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "sns:Publish"
+        Resource = [
+            aws_sns_topic.tdp_lambda_success_topic.arn,
+            aws_sns_topic.tdp_lambda_failure_topic.arn
+          ]
+      }
+    ]
+  })
+}
+
+# Attach SNS policy to Lambda
+resource "aws_iam_role_policy_attachment" "tdp_sns_policy_attach"{
+  role = aws_iam_role.tdp_lambda_role.name
+  policy_arn = aws_iam_policy.lambda_publish_to_sns.arn
+}
