@@ -87,5 +87,5 @@ Slides for this workshop is located ![here]().
 - Run terraform apply
 
 ## 📑 Resources
-* ![Terraform Tutorial](https://spacelift.io/blog/terraform-tutorial)
-* ![Docker Tutorial For Beginners](https://www.youtube.com/watch?v=fqMOX6JJhGo)
+* [Terraform Tutorial](https://spacelift.io/blog/terraform-tutorial)
+* [Docker Tutorial For Beginners](https://www.youtube.com/watch?v=fqMOX6JJhGo)
