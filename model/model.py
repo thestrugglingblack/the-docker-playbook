@@ -4,7 +4,6 @@ import os
 from io import StringIO
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-import joblib
 import traceback
 import tempfile
 import pickle
@@ -17,6 +16,7 @@ def train_and_predict(
         MODEL_FOLDER: str
 ):
     try:
+        print('Reading data...')
         s3 = boto3.client('s3')
         response = s3.get_object(Bucket=S3_BUCKET_NAME, Key=DATA_FOLDER)
         body = response['Body'].read().decode('utf-8')
@@ -31,9 +31,11 @@ def train_and_predict(
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+        print('Training model...')
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(X_train, y_train)
 
+        print('Running predictions...')
         y_pred = model.predict(X_test)
 
         results_df = pl.DataFrame({
@@ -50,13 +52,13 @@ def train_and_predict(
         csv_buffer = StringIO()
         results_df.write_csv(csv_buffer)
         s3.put_object(Bucket=S3_BUCKET_NAME, Key=RESULTS_FOLDER, Body=csv_buffer.getvalue())
-
+        print('Savings prediction results to temp...')
         temp_dir = tempfile.mkdtemp()
         model_path = os.path.join(temp_dir, 'model.pkl')
 
         with open(model_path, 'wb') as f:
             pickle.dump(model, f)
-
+        print('Uploading results to S3...')
         with open(model_path, 'rb') as f:
             s3.upload_fileobj(f, S3_BUCKET_NAME, MODEL_FOLDER)
 
