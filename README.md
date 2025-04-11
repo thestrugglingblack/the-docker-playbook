@@ -40,6 +40,10 @@ Slides for this workshop is located [here](https://github.com/thestrugglingblack
 [![Twitter Badge](https://img.shields.io/badge/Twitter-1DA1F2?style=flat&logo=twitter&logoColor=white)](https://x.com/ZuriHunter)
 [![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/thestrugglingblack)
 
+<p align="center">
+  <img src="diagram.jpg" width="600" height="auto">
+</p>
+
 ## ✅ Dependencies
 * [Docker](https://www.docker.com/get-started/)
 * [Python (v3)](https://www.python.org/downloads/)
