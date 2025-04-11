@@ -1,5 +1,4 @@
-FROM python:3.9-slim
-
+FROM public.ecr.aws/lambda/python:3.9
 WORKDIR /app
 COPY model.py /app/
 COPY requirements.txt /app/requirements.txt
