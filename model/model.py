@@ -31,7 +31,7 @@ def train_and_predict(
 
             response = s3.get_object(Bucket=S3_BUCKET_NAME, Key=csv_key)
             body = response['Body'].read().decode('utf-8')
-            df = pl.read_csv(StringIO(body), sep="\t")
+            df = pl.read_csv(StringIO(body), separator="\t")
 
             features = ['x', 'y', 'a', 'dis', 'o', 'dir']
             target = 's'
