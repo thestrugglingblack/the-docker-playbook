@@ -138,7 +138,7 @@ AWS_SECRET_ACCESS_KEY
 The environment variables above will allow you to push the docker image of your model Docker Hub and your AWS Elastic Container Registry.
 > Note 📝: The Elastic Container Registry must be made prior to GitHub Actions pipeline launching got to "Getting Started" to create the Elastic Container Registry.
 
-3. Replace `378737770782` with your account ID in .github/workflows/model_docker.yml
+3. Replace `378737770782` with your account ID in `.github/workflows/model_docker.yml`.
 
 ```yml
         run: |
