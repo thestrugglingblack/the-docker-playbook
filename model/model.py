@@ -19,6 +19,7 @@ def train_and_predict(
         print('Reading data...')
         s3 = boto3.client('s3')
         response = s3.get_object(Bucket=S3_BUCKET_NAME, Key=DATA_FOLDER)
+        print(f"The key '{DATA_FOLDER}' does not exist in the bucket '{S3_BUCKET_NAME}'.")
         body = response['Body'].read().decode('utf-8')
         df = pl.read_csv(StringIO(body))
 
