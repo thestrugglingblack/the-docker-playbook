@@ -7,14 +7,52 @@ from sklearn.ensemble import RandomForestRegressor
 import traceback
 import tempfile
 import pickle
+from math import ceil
+
+MULTIPART_CHUNK_SIZE = 5 * 1024 * 1024  # 5MB per part (minimum for S3 multipart)
 
 
-def train_and_predict(
-        S3_BUCKET_NAME: str,
-        DATA_FOLDER: str,
-        RESULTS_FOLDER: str,
-        MODEL_FOLDER: str
-):
+def upload_file_multipart(s3_client, bucket, key, file_path):
+    try:
+        response = s3_client.create_multipart_upload(Bucket=bucket, Key=key)
+        upload_id = response['UploadId']
+
+        parts = []
+        part_number = 1
+
+        with open(file_path, 'rb') as f:
+            while True:
+                data = f.read(MULTIPART_CHUNK_SIZE)
+                if not data:
+                    break
+                part = s3_client.upload_part(
+                    Bucket=bucket,
+                    Key=key,
+                    PartNumber=part_number,
+                    UploadId=upload_id,
+                    Body=data
+                )
+                parts.append({
+                    'PartNumber': part_number,
+                    'ETag': part['ETag']
+                })
+                part_number += 1
+
+        s3_client.complete_multipart_upload(
+            Bucket=bucket,
+            Key=key,
+            UploadId=upload_id,
+            MultipartUpload={'Parts': parts}
+        )
+        print(f"✅ Multipart upload complete for: {key}")
+
+    except Exception as e:
+        print(f"❌ Multipart upload failed for {key}: {e}")
+        s3_client.abort_multipart_upload(Bucket=bucket, Key=key, UploadId=upload_id)
+        raise
+
+
+def train_and_predict(S3_BUCKET_NAME: str, DATA_FOLDER: str, RESULTS_FOLDER: str, MODEL_FOLDER: str):
     try:
         s3 = boto3.client('s3')
 
@@ -60,23 +98,20 @@ def train_and_predict(
                 'predicted_s': y_pred
             })
 
-            # Save results to S3
             csv_buffer = StringIO()
             results_df.write_csv(csv_buffer)
             result_key = f"{RESULTS_FOLDER}{os.path.basename(csv_key).replace('.csv', '_results.csv')}"
             s3.put_object(Bucket=S3_BUCKET_NAME, Key=result_key, Body=csv_buffer.getvalue())
             print(f"Results saved to: {result_key}")
 
-            # Save model to S3
             temp_dir = tempfile.mkdtemp()
             model_path = os.path.join(temp_dir, 'model.pkl')
 
             with open(model_path, 'wb') as f:
                 pickle.dump(model, f)
+
             model_key = f"{MODEL_FOLDER}{os.path.basename(csv_key).replace('.csv', '_model.pkl')}"
-            with open(model_path, 'rb') as f:
-                s3.upload_fileobj(f, S3_BUCKET_NAME, model_key)
-            print(f"Model saved to: {model_key}")
+            upload_file_multipart(s3, S3_BUCKET_NAME, model_key, model_path)
 
         print("✅ Successfully processed all files.")
         return {
@@ -92,24 +127,3 @@ def train_and_predict(
             'statusCode': 500,
             'body': f'Error: {str(e)}'
         }
-
-
-if __name__ == "__main__":
-    S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
-    DATA_FOLDER = os.getenv("DATA_FOLDER")
-    RESULTS_FOLDER = os.getenv("RESULTS_FOLDER")
-    MODEL_FOLDER = os.getenv("MODEL_FOLDER")
-
-    if not all([S3_BUCKET_NAME, DATA_FOLDER, RESULTS_FOLDER, MODEL_FOLDER]):
-        print(f"S3_BUCKET_NAME: {S3_BUCKET_NAME}")
-        print(f"DATA_FOLDER: {DATA_FOLDER}")
-        print(f"RESULTS_FOLDER: {RESULTS_FOLDER}")
-        print(f"MODEL_FOLDER: {MODEL_FOLDER}")
-        raise EnvironmentError("Missing one or more required environment variables.")
-
-    train_and_predict(
-        S3_BUCKET_NAME=S3_BUCKET_NAME,
-        DATA_FOLDER=DATA_FOLDER,
-        RESULTS_FOLDER=RESULTS_FOLDER,
-        MODEL_FOLDER=MODEL_FOLDER
-    )
