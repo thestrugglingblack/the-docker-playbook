@@ -16,6 +16,7 @@ def train_and_predict(
         MODEL_FOLDER: str
 ):
     try:
+        s3 = boto3.client('s3')
 
         response = s3.list_objects_v2(Bucket=S3_BUCKET_NAME)
         if 'Contents' in response:
@@ -23,7 +24,6 @@ def train_and_predict(
                 print(f"Key: {obj['Key']}, Size: {obj['Size']} bytes")
 
         print('Reading data...')
-        s3 = boto3.client('s3')
         print(f"The key '{DATA_FOLDER}' does not exist in the bucket '{S3_BUCKET_NAME}'.")
         response = s3.get_object(Bucket=S3_BUCKET_NAME, Key=DATA_FOLDER)
         body = response['Body'].read().decode('utf-8')
