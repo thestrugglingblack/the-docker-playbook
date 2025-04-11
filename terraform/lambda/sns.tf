@@ -12,13 +12,13 @@ resource "aws_sns_topic" "tdp_lambda_failure_topic"{
 resource "aws_sns_topic_subscription" "tdp_email_success_subscription"{
   topic_arn = aws_sns_topic.tdp_lambda_success_topic.arn
   protocol = "email"
-  endpoint = "thestrugglingblack@gmail.com"
+  endpoint = "zurihunter92@gmail.com"
 }
 # Subscribe to SNS topic via email
 resource "aws_sns_topic_subscription" "tdp_email_failure_subscription"{
   topic_arn = aws_sns_topic.tdp_lambda_failure_topic.arn
   protocol = "email"
-  endpoint = "thestrugglingblack@gmail.com"
+  endpoint = "zurihunter92@gmail.com"
 }
 
 resource "aws_lambda_function_event_invoke_config" "tdp_lambda_event_invoke_config" {

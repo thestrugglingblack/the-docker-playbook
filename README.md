@@ -185,7 +185,8 @@ resource "aws_lambda_permission" "tdp_lambda_s3_invoke_permission" {
 After those updates have been completed follow these steps below:
 1. Change into the directory of `terraform/lambda`.
 2. Run `terraform init` to initialize the stack.
-3. Run `terraform apply` to apply and deploy your changes to AWS.
+3. Run `terraform apply -target=aws_ecr_repository.tdp_model_ecr` to create your ECR stack alone. 
+
 
 Verify that everything was deployed successfully by:
 * Go to Elastic Container Registry (ECR) and see if  `tdp/the-docker-playbook-model` was created.
@@ -201,6 +202,7 @@ In this workshop there are two ways to push the model docker image to **ECR** an
 ```bash
 aws ecr get-login-password --region <INSERT_REGION> | docker login --username AWS --password-stdin <INSERT_ACCOUNT_ID>.dkr.<INSERT_REGION>.amazonaws.com
 ```
+2. Change into the directory of where the model is located `cd model/`.
 
 2. Build the docker image:
 ```bash
@@ -211,6 +213,9 @@ docker build -t <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/th
 ```bash
 docker push <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/the-docker-playbook-model:latest
 ```
+
+3. Now the rest of the stack can be ran `terraform apply` to apply and deploy your changes to AWS.
+4. To destroy your pipeline run, `terraform destroy`.
 
 #### Test Image Locally
 1. First build and tag the docker image under a different name.
