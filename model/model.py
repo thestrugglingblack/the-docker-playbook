@@ -128,20 +128,19 @@ def train_and_predict(S3_BUCKET_NAME: str, DATA_FOLDER: str, RESULTS_FOLDER: str
             'body': f'Error: {str(e)}'
         }
 
-if __name__ == "__main__":
+def lambda_handler(event, context):
     S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
     DATA_FOLDER = os.getenv("DATA_FOLDER")
     RESULTS_FOLDER = os.getenv("RESULTS_FOLDER")
     MODEL_FOLDER = os.getenv("MODEL_FOLDER")
 
     if not all([S3_BUCKET_NAME, DATA_FOLDER, RESULTS_FOLDER, MODEL_FOLDER]):
-        print(f"S3_BUCKET_NAME: {S3_BUCKET_NAME}")
-        print(f"DATA_FOLDER: {DATA_FOLDER}")
-        print(f"RESULTS_FOLDER: {RESULTS_FOLDER}")
-        print(f"MODEL_FOLDER: {MODEL_FOLDER}")
-        raise EnvironmentError("Missing one or more required environment variables.")
+        return {
+            'statusCode': 500,
+            'body': 'Missing one or more required environment variables.'
+        }
 
-    train_and_predict(
+    return train_and_predict(
         S3_BUCKET_NAME=S3_BUCKET_NAME,
         DATA_FOLDER=DATA_FOLDER,
         RESULTS_FOLDER=RESULTS_FOLDER,
