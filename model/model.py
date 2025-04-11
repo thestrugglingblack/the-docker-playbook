@@ -84,7 +84,12 @@ if __name__ == "__main__":
     RESULTS_FOLDER = os.getenv("RESULTS_FOLDER")
     MODEL_FOLDER = os.getenv("MODEL_FOLDER")
 
+
     if not all([S3_BUCKET_NAME, DATA_FOLDER, RESULTS_FOLDER, MODEL_FOLDER]):
+        print(f"S3_BUCKET_NAME: {S3_BUCKET_NAME}")
+        print(f"DATA_FOLDER: {DATA_FOLDER}")
+        print(f"RESULTS_FOLDER: {RESULTS_FOLDER}")
+        print(f"MODEL_FOLDER: {MODEL_FOLDER}")
         raise EnvironmentError("Missing one or more required environment variables.")
 
     train_and_predict(
