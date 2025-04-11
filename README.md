@@ -138,6 +138,14 @@ AWS_SECRET_ACCESS_KEY
 The environment variables above will allow you to push the docker image of your model Docker Hub and your AWS Elastic Container Registry.
 > Note 📝: The Elastic Container Registry must be made prior to GitHub Actions pipeline launching got to "Getting Started" to create the Elastic Container Registry.
 
+3. Replace `378737770782` with your account ID in .github/workflows/model_docker.yml
+
+```yml
+        run: |
+          aws lambda update-function-code \
+            --function-name tdp-model-docker \
+            --image-uri  378737770782.dkr.ecr.us-east-1.amazonaws.com/tdp/the-docker-playbook-model:latest # <----- Replace with your AWS Account ID
+```
 
 ## 🚀 Getting Started
 Verify that you have both Docker and Terraform installed by running `docker -v` and `terraform -v`.
