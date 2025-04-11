@@ -19,7 +19,9 @@ resource "aws_s3_bucket_notification" "lambda_trigger" {
   lambda_function {
     lambda_function_arn = aws_lambda_function.tdp_model_lambda.arn
     events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "raw-data/"
   }
+
   depends_on = [
     aws_lambda_permission.tdp_lambda_s3_invoke_permission,
     aws_lambda_function.tdp_model_lambda

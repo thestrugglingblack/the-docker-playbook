@@ -190,8 +190,7 @@ After those updates have been completed follow these steps below:
 
 Verify that everything was deployed successfully by:
 * Go to Elastic Container Registry (ECR) and see if  `tdp/the-docker-playbook-model` was created.
-* Go to Lambda and see if `tdp-model-docker` function was created.
-* Go to SNS and see if `tdp-lambda-failure-topic` and `tdp-lambda-success-topic` was created.
+
 
 ### 🐳 Docker
 In this workshop there are two ways to push the model docker image to **ECR** and **DockerHub**: GitHub Actions and CLI. 
@@ -215,9 +214,14 @@ docker push <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/the-do
 ```
 
 3. Now the rest of the stack can be ran `terraform apply` to apply and deploy your changes to AWS.
+
+Verify that everything was deployed successfully by:
+* Go to Lambda and see if `tdp-model-docker` function was created.
+* Go to SNS and see if `tdp-lambda-failure-topic` and `tdp-lambda-success-topic` was created.
+
 4. To destroy your pipeline run, `terraform destroy`.
 
-#### Test Image Locally
+#### OPTIONAL: Test Image Locally
 1. First build and tag the docker image under a different name.
 
 ```bash
