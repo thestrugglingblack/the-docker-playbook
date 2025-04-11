@@ -13,9 +13,9 @@ resource "aws_lambda_function" "tdp_model_lambda" {
   environment {
     variables = {
       S3_BUCKET_NAME = data.aws_s3_bucket.tdp_data.bucket
-      DATA_FOLDER = "raw-data"
-      RESULTS_FOLDER = "results"
-      MODEL_FOLDER = "model"
+      DATA_FOLDER = "raw-data/"
+      RESULTS_FOLDER = "results/"
+      MODEL_FOLDER = "model/"
     }
   }
 }
