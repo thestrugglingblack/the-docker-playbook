@@ -114,7 +114,7 @@ In these steps you will have your AWS account prepared.
   ]
 }
 ```
-> Note 📝: Your user should be able to use AWS CLI this will be needed to run Terraform commands.
+> Note c: Your user should be able to use AWS CLI this will be needed to run Terraform commands.
 
 For further assistance on how to do this follow these resources below:
 * [Create AWS User](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)
@@ -134,7 +134,7 @@ AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 ```
 The environment variables above will allow you to push the docker image of your model Docker Hub and your AWS Elastic Container Registry.
-> Note: The Elastic Container Registry must be made prior to GitHub Actions pipeline launching got to "Getting Started" to create the Elastic Container Registry.
+> Note 📝: The Elastic Container Registry must be made prior to GitHub Actions pipeline launching got to "Getting Started" to create the Elastic Container Registry.
 
 
 ## 🚀 Getting Started
@@ -201,6 +201,7 @@ docker push <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/the-do
 ## 🪄Activate The Model Pipeline
 To trigger your Lambda function upload one of the tracking files into your S3 bucket.
 
+> Note 📝: To receive the email notification you must hit the subscribe button that was sent to the email added..
 
 ## 📑 Resources
 * [Terraform Tutorial](https://spacelift.io/blog/terraform-tutorial)

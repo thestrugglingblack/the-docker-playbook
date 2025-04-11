@@ -49,8 +49,10 @@ def train_and_predict(
         results_df.write_csv(csv_buffer)
         s3.put_object(Bucket=S3_BUCKET_NAME, Key=RESULTS_FOLDER, Body=csv_buffer.getvalue())
 
-        joblib.dump(model, 'model.pkl')
-        with open('model.pkl', 'rb') as f:
+        model_path = '/tmp/model.pkl'
+        joblib.dump(model, model_path)
+
+        with open(model_path, 'rb') as f:
             s3.upload_fileobj(f, S3_BUCKET_NAME, MODEL_FOLDER)
 
         print("✅ Successfully trained model, results are now in S3.")
