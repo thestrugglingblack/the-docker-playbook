@@ -201,7 +201,7 @@ docker push <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/the-do
 ## 🪄Activate The Model Pipeline
 To trigger your Lambda function upload one of the tracking files into your S3 bucket.
 
-> Note 📝: To receive the email notification you must hit the subscribe button that was sent to the email added..
+> Note 📝: To receive the email notification you must hit the subscribe button that was sent to the email added.
 
 ## 📑 Resources
 * [Terraform Tutorial](https://spacelift.io/blog/terraform-tutorial)

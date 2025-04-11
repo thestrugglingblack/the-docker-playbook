@@ -6,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import joblib
 import traceback
+import tempfile
+import pickle
 
 
 def train_and_predict(
@@ -49,18 +51,29 @@ def train_and_predict(
         results_df.write_csv(csv_buffer)
         s3.put_object(Bucket=S3_BUCKET_NAME, Key=RESULTS_FOLDER, Body=csv_buffer.getvalue())
 
-        model_path = '/tmp/model.pkl'
-        joblib.dump(model, model_path)
+        temp_dir = tempfile.mkdtemp()
+        model_path = os.path.join(temp_dir, 'model.pkl')
+
+        with open(model_path, 'wb') as f:
+            pickle.dump(model, f)
 
         with open(model_path, 'rb') as f:
             s3.upload_fileobj(f, S3_BUCKET_NAME, MODEL_FOLDER)
 
         print("✅ Successfully trained model, results are now in S3.")
+        return {
+            'statusCode': 200,
+            'body': 'Model trained and files saved to S3 successfully.'
+        }
 
     except Exception as e:
         print("❌ An error occurred during training or prediction.")
         print(f"Error: {e}")
         traceback.print_exc()
+        return {
+            'statusCode': 500,
+            'body': f'Error: {str(e)}'
+        }
 
 
 if __name__ == "__main__":
