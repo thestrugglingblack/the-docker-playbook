@@ -55,20 +55,22 @@ Slides for this workshop is located [here]().
 │   ├── Dockerfile
 │   ├── model.py
 │   └── requirements.txt
-├── scripts
-│   └── ecr-login.sh
-└── terraform
-    └── lambda
-        ├── ecr.tf
-        ├── iam_ecr.tf
-        ├── iam_lambda.tf
-        ├── lambda.tf
-        ├── providers.tf
-        ├── s3.tf
-        └── sns.tf
+├── terraform
+│   └── lambda
+│       ├── ecr.tf
+│       ├── iam_ecr.tf
+│       ├── iam_lambda.tf
+│       ├── lambda.tf
+│       ├── providers.tf
+│       ├── sns.tf
+│       └── s3.tf
+└── utils
+    ├── aws-user-managed-policy.json
+    ├── ecr-login.sh
+    └── tracking-trigger-file.csv
 ```
 ## 💾 Data
-The model that we are going to work with uses the dataset from the NFL Big Data Bowl 2025. The data is about 8GB large but the files that wee will only need are `tracking*.csv`. You can download the zipped version from [here](https://www.kaggle.com/competitions/nfl-big-data-bowl-2025/data).
+The data that we are going to work with uses the dataset from the NFL Big Data Bowl 2025. The data is about 8GB large but the files that wee will only need are `tracking*.csv`. You can download the zipped version from [here](https://www.kaggle.com/competitions/nfl-big-data-bowl-2025/data).
 
 ##  🏃 Preliminary Steps
 In these steps you will have your AWS account prepared.
@@ -114,7 +116,7 @@ In these steps you will have your AWS account prepared.
   ]
 }
 ```
-> Note c: Your user should be able to use AWS CLI this will be needed to run Terraform commands.
+> Note 📝: Your user should be able to use AWS CLI this will be needed to run Terraform commands.
 
 For further assistance on how to do this follow these resources below:
 * [Create AWS User](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)
@@ -196,6 +198,26 @@ docker build -t <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/th
 3. Push the new built docker image to ECR:
 ```bash
 docker push <INSERT_ACCOUNT_ID>.dkr.ecr.<INSERT_REGION>.amazonaws.com/tdp/the-docker-playbook-model:latest
+```
+
+#### Test Image Locally
+1. First build and tag the docker image under a different name.
+
+```bash
+docker build -t  tdp/the-docker-playbook-model-test
+```
+2. Run the container and replace everything <INSERT_*> with what you is defined in your `lambda.tf` file.
+
+```bash
+docker run -e S3_BUCKET_NAME=<INSERT_BUCKET_NAME> -e DATA_FOLDER=<INSERT_DATA_FOLDER> \
+  -e RESULTS_FOLDER=<INSERT_RESULTS_FOLDER> -e MODEL_FOLDER=<INSERT_MODEL_FOLDER> \
+  -p 9000:8080 tdp/the-docker-playbook-model-test
+```
+
+3. Run a curl command to invoke the function and verify that there is a status code of 200.
+```bash
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" \
+  -d '{}'
 ```
 
 ## 🪄Activate The Model Pipeline
